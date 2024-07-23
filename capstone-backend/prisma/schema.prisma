@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String 
+  email String @unique
+  phone String @unique
+  school String
+  major String
+  image Json?
+  studentId Int @map("student_id")
+  club Club[]
+}
+
+model Member {
+  id Int @id @default(autoincrement())
+  name String
+  email String?
+  phone String?
+  school String
+  major String
+  image Json?
+  studentsId Int @map("student_id")
+  club Club[] 
+}
+
+model Club {
+  id Int @id @default(autoincrement())
+  name String
+  school String
+  location String
+  description String?
+  adminList Json @map("admin_list")
+  image Json?
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  member Member @relation(fields: [memberId], references: [id])
+  memberId Int
+}
+
+// model Calendar {
+//   id Int @id @default(autoincrement())
+//   date DateTime
+//   title String
+//   description String?
+//   clubId Int
+//   club Club @relation(fields: [clubId], references: [id])
+// }
