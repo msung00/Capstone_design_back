@@ -14,41 +14,50 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String 
-  email String @unique
-  phone String @unique
-  school String
-  major String
-  image Json?
-  studentId Int @map("student_id")
-  club Club[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  phone       String       @unique
+  school      String
+  major       String
+  image       Json?
+  studentId   Int          @map("student_id")
+  memberships Membership[]
 }
 
 model Member {
-  id Int @id @default(autoincrement())
-  name String
-  email String?
-  phone String?
-  school String
-  major String
-  image Json?
-  studentsId Int @map("student_id")
-  club Club[] 
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String?
+  phone       String?
+  school      String
+  major       String
+  image       Json?
+  studentsId  Int          @map("student_id")
+  memberships Membership[]
 }
 
 model Club {
-  id Int @id @default(autoincrement())
-  name String
-  school String
-  location String
+  id          Int          @id @default(autoincrement())
+  name        String
+  school      String
+  location    String
   description String?
-  adminList Json @map("admin_list")
-  image Json?
-  user User @relation(fields: [userId], references: [id])
-  userId Int
-  member Member @relation(fields: [memberId], references: [id])
-  memberId Int
+  adminList   Json         @map("admin_list")
+  memberships Membership[]
+}
+
+model Membership {
+  id       Int     @id @default(autoincrement())
+  userId   Int
+  memberId Int?
+  clubId   Int
+  role     String // Optional: For example, "admin", "member", etc.
+  user     User    @relation(fields: [userId], references: [id])
+  member   Member? @relation(fields: [memberId], references: [id])
+  club     Club    @relation(fields: [clubId], references: [id])
+
+  @@unique([userId, memberId, clubId]) // Ensures each user can only belong to a club once
 }
 
 // model Calendar {
@@ -59,3 +68,9 @@ model Club {
 //   clubId Int
 //   club Club @relation(fields: [clubId], references: [id])
 // }
+
+// image Json?
+// user User @relation(fields: [userId], references: [id])
+// userId Int
+// member Member @relation(fields: [memberId], references: [id])
+// memberId Int

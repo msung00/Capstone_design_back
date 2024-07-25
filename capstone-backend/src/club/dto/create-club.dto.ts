@@ -1,32 +1,31 @@
-import { IsArray, IsInt, IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
+import {
+  IsArray,
+  IsInt,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateClubDto {
-    @IsString()
-    @IsNotEmpty()
-    name: string;
-   
-    @IsString()
-    @IsNotEmpty()
-    school: string; 
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    location: string;
+  @IsString()
+  @IsNotEmpty()
+  school: string;
 
-    @IsString()
-    @IsOptional()
-    description: string;
+  @IsString()
+  @IsNotEmpty()
+  location: string;
 
-    @IsOptional()
-    @IsArray()
-    @IsNotEmpty()
-    adminList: number[];
+  @IsString()
+  @IsOptional()
+  description: string;
 
-    @IsInt()
-    @IsNotEmpty()
-    userId: number;
-    
-    @IsInt()
-    @IsOptional()
-    memberId: number;
+  @IsOptional()
+  @IsArray()
+  @IsNotEmpty()
+  adminList: number[] = [];
 }
